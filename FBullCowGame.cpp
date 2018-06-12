@@ -5,14 +5,11 @@
 
 FBullCowGame::FBullCowGame() { Reset(); } // constructor 
 
-
 int32 FBullCowGame::GetCurrentTry() const { return MyCurrentTry; }
 int32 FBullCowGame::GetHiddenWordLength() const { return MyHiddenWord.length(); }
 bool FBullCowGame::IsGameWon() const { return bGameIsWon; }
+int32 FBullCowGame::GetMaxTries() const { return MyMaxTries; }
 
-int32 FBullCowGame::GetMaxTries() const {
-	return MyMaxTries; 
-}
 void FBullCowGame::Reset() {
 	TMap<int32, FString> HIDDEN_WORDS {
 		{ 1, "a" },
