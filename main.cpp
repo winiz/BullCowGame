@@ -4,26 +4,29 @@
 	and is responsible for all user interaction. For Game 
 	logic see the FBullCowGame class.
 */
-
+#pragma once
 #include <iostream>
 #include <string>
 #include "FBullCowGame.h"
 
+//to make syntax Unreal friendly
 using FText = std::string; //FText used for user intereaction
 using int32 = int;
 
+// function prototypes as outside a class
 void PrintIntro();
 void PlayGame();
 FText GetValidGuess();
 bool AskToPlayAgin();
 void PrintGameSummary();
 
-FBullCowGame BCGame; //instantiate a new game 
+FBullCowGame BCGame; //instantiate a new game, which we re-use across plays
 
 //The Entry of this application 
 int main() {
 	bool PlayAgain = false;
 	do {
+		BCGame.Reset();
 		PrintIntro();
 		PlayGame();
 		PlayAgain = AskToPlayAgin();
@@ -34,15 +37,19 @@ int main() {
 
 void PrintIntro() {
 	// INTRODUCE THE GAME
-	std::cout << "\n\nWelcome to Bulls and Cows, a fun word game.\n";
-	std::cout << "Can you guess the " << BCGame.GetHiddenWordLength();
+	std::cout << "\nWelcome to Bulls and Cows, a fun word game.\n\n";
+	std::cout << "((_, ..., _))        ((...))   " << std::endl;
+	std::cout << "   | o o |           ( O O )   " << std::endl;
+	std::cout << "     \\ /      vs      \\   /  " << std::endl;
+	std::cout << "     ^_^              (`_`)	 " << std::endl;
+	std::cout << " \nCan you guess the " << BCGame.GetHiddenWordLength();
 	std::cout << " letter isogram I am thinking of?\n";
 	std::cout << std::endl;
 	return;
 }
 
 void PlayGame() {
-	BCGame.Reset();
+	
 	int32 MaxTries = BCGame.GetMaxTries();
 
 	// loop asking for guesses while the game 
@@ -67,7 +74,7 @@ FText GetValidGuess() {
 	do {
 		//get a guess from the player
 		int32 CurrentTry = BCGame.GetCurrentTry();
-		std::cout << "Try " << CurrentTry << ". Enter your guess: ";
+		std::cout << "Try " << CurrentTry << " of " << BCGame.GetMaxTries() << ". Enter your guess: ";
 		std::getline(std::cin, guessInstance);
 
 		Status = BCGame.CheckGuessValidity(guessInstance);
@@ -91,7 +98,7 @@ FText GetValidGuess() {
 }
 
 bool AskToPlayAgin() {
-	std::cout << "Do you want to play again with the same hidde word? (y/n) ";
+	std::cout << "Do you want to play again with anthoer hidde word? (y/n) ";
 	FText Response = "";
 	std::getline(std::cin, Response);
 	bool flag = (Response[0] == 'y') || (Response[0] == 'Y');
